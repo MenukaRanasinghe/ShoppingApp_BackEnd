@@ -1,6 +1,7 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,20 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     public List<Product> getProducts() {
         return products;
@@ -24,20 +38,11 @@ public class Cart {
 
     }
 
-    public Cart(Long id, String name, User user) {
+    public Cart(Long id,  User user) {
         this.id = id;
-        this.name = name;
         this.user = user;
     }
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;

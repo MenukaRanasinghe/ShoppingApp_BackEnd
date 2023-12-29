@@ -1,7 +1,7 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +14,24 @@ public class Order {
     private Long id;
 
     private double total;
-    private LocalDate date;
 
-    public Order(Long id, double total, LocalDate date, User user) {
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    public Order(Long id, double total,  User user) {
         this.id = id;
         this.total = total;
-        this.date = date;
         this.user = user;
     }
 
@@ -57,13 +69,6 @@ public class Order {
         this.total = total;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 
 
     @ManyToOne
