@@ -1,5 +1,9 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +23,11 @@ public class Product {
 
     private String size;
 
+    @JsonProperty("category_id")
+    public Long getCategoryId() {
+        return (category != null) ? category.getId() : null;
+    }
+    @JsonIgnore
     public Category getCategory() {
         return category;
     }

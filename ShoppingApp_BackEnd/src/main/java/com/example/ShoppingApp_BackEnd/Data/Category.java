@@ -1,5 +1,7 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class Category {
         this.id = id;
         this.name = name;
     }
+    @JsonBackReference
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 }

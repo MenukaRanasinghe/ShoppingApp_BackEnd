@@ -1,5 +1,9 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +39,11 @@ public class Order {
         this.user = user;
     }
 
+    @JsonProperty("user_id")
+    public Long getUserId() {
+        return (user != null) ? user.getId() : null;
+    }
+    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -75,6 +84,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "order_product",

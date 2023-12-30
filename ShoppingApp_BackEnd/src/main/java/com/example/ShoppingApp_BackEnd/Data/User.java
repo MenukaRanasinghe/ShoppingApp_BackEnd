@@ -1,5 +1,7 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,10 +106,11 @@ public class User {
         this.address = address;
         this.phone = phone;
     }
-
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts = new ArrayList<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
