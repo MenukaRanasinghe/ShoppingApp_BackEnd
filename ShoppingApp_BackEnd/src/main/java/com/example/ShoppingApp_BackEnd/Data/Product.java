@@ -1,11 +1,12 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Product {
 
@@ -21,13 +22,18 @@ public class Product {
 
     private int quantity;
 
-    private String size;
+    @ElementCollection
+    @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "size")
+    private Set<String> sizes = new HashSet<>();
 
     @JsonProperty("category_id")
     public Long getCategoryId() {
         return (category != null) ? category.getId() : null;
     }
-    @JsonIgnore
+
+    // Add @JsonIgnoreProperties to ignore the 'category' property during serialization
+    @JsonIgnoreProperties("products")
     public Category getCategory() {
         return category;
     }
@@ -78,12 +84,12 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getSize() {
-        return size;
+    public Set<String> getSizes() {
+        return sizes;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setSizes(Set<String> sizes) {
+        this.sizes = sizes;
     }
 
     public String getColour() {
@@ -94,23 +100,20 @@ public class Product {
         this.colour = colour;
     }
 
-    public Product(Long id, String name, String description, double price, int quantity, String size, String colour) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.size = size;
-        this.colour = colour;
-    }
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     public Product() {
-
     }
 
-
+    public Product(Long id, String name, String description, double price, int quantity, String colour, Set<String> sizes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.colour = colour;
+        this.sizes = sizes;
+    }
 }
