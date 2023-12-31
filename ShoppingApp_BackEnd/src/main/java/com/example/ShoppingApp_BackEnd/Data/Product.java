@@ -100,6 +100,7 @@ public class Product {
         this.colour = colour;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

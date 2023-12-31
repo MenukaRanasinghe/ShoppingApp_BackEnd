@@ -1,6 +1,9 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +11,7 @@ import java.util.List;
 
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -20,6 +24,10 @@ public class User {
     private String fullName;
     private String address;
     private int phone;
+
+    public User() {
+
+    }
 
     public List<Order> getOrders() {
         return orders;
@@ -93,10 +101,6 @@ public class User {
         this.phone = phone;
     }
 
-    public User() {
-
-    }
-
     public User(Long id, String username, String email, String password, String fullName, String address, int phone) {
         this.id = id;
         this.username = username;
@@ -106,11 +110,11 @@ public class User {
         this.address = address;
         this.phone = phone;
     }
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
