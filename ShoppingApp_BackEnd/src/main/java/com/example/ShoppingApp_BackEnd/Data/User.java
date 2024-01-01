@@ -26,6 +26,7 @@ public class User {
 
     }
 
+    @JsonIgnore
     public List<Order> getOrders() {
         return orders;
     }
@@ -33,7 +34,7 @@ public class User {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-
+    @JsonIgnore
     public List<Cart> getCarts() {
         return carts;
     }
