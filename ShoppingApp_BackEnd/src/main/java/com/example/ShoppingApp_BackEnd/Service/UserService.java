@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.hibernate.bytecode.enhance.spi.interceptor.BytecodeInterceptorLogging.LOGGER;
 
 @Service
 public class UserService {
@@ -41,10 +42,10 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        // You may want to encode the password before saving the user
-        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
 
     public User updateUser(Long userId, User updatedUser) {
         if (userRepository.existsById(userId)) {
@@ -58,8 +59,13 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
     public User authenticateUser(String usernameOrEmail, String password, PasswordEncoder passwordEncoder) {
+        LOGGER.info("Received request with usernameOrEmail: {} and password: {}", usernameOrEmail, password);
+
         if (usernameOrEmail == null || usernameOrEmail.isEmpty() || password == null || password.isEmpty()) {
+            LOGGER.error("Invalid input: Username/Email and password cannot be null or empty");
             throw new IllegalArgumentException("Username/Email and password cannot be null or empty");
         }
 
@@ -68,11 +74,13 @@ public class UserService {
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             return user.get();
         } else {
-            LOGGER.warn("Authentication failed for username/email: {} with password: {}");
-
+            LOGGER.warn("Authentication failed for username/email: {} with password: {}", usernameOrEmail, password);
             throw new AuthenticationException("Invalid username/email or password for: " + usernameOrEmail);
         }
     }
+
+
+
 
 
 

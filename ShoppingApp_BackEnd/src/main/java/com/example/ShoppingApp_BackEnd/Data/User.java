@@ -1,9 +1,6 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -110,11 +107,13 @@ public class User {
         this.address = address;
         this.phone = phone;
     }
-    @JsonManagedReference
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts = new ArrayList<>();
 
-    @JsonManagedReference
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 

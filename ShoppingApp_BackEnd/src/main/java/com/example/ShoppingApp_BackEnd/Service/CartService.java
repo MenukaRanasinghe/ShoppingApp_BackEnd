@@ -31,7 +31,6 @@ public class CartService {
     }
 
     public Cart createCart(Cart cart) {
-        // Fetch the user by id from the database
         Optional<User> userOptional = userRepository.findById(cart.getUser().getId());
 
         if (userOptional.isPresent()) {

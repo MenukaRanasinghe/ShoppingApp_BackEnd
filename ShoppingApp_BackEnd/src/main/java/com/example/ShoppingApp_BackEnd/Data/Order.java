@@ -1,8 +1,6 @@
 package com.example.ShoppingApp_BackEnd.Data;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -80,6 +78,8 @@ public class Order {
 
 
 
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("orders")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
