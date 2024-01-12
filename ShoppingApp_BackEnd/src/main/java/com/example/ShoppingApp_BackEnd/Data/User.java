@@ -108,13 +108,13 @@ public class User {
         this.address = address;
         this.phone = phone;
     }
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonIgnoreProperties("user")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+   /* @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("user")*/
+    @OneToMany(mappedBy = "user"/*, cascade = CascadeType.ALL*/)
     private List<Cart> carts = new ArrayList<>();
 
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonIgnoreProperties("user")
+    /*@JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("user")*/
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 

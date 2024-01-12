@@ -42,7 +42,10 @@ public class Cart {
 
     public Cart(Long id,  User user) {
         this.id = id;
-        this.user = user;
+        this.user=user;
+        if(user!=null){
+            user.getCarts().add(this);
+        }
     }
 
 
@@ -54,27 +57,32 @@ public class Cart {
         this.id = id;
     }
 
-    @JsonProperty("user_id")
+   @JsonProperty("user_id")
     public Long getUserId() {
-        return (user != null) ? user.getId() : null;
-    }
+       return  user!=null ? user.getId():null;
+   }
     @JsonIgnore
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
+        if (this.user != null) {
+            this.user.getCarts().remove(this);
+        }
         this.user = user;
+        if (user != null) {
+            user.getCarts().add(this);
+        }
     }
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonIgnoreProperties("carts")
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @ManyToMany
-    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL)
+ //   @JsonBackReference
     @JoinTable(
             name = "cart_product",
             joinColumns = @JoinColumn(name = "cart_id"),

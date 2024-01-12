@@ -3,7 +3,9 @@ package com.example.ShoppingApp_BackEnd.Data;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -32,8 +34,7 @@ public class Product {
         return (category != null) ? category.getId() : null;
     }
 
-    // Add @JsonIgnoreProperties to ignore the 'category' property during serialization
-    @JsonIgnoreProperties("products")
+    @JsonIgnore
     public Category getCategory() {
         return category;
     }
@@ -43,6 +44,10 @@ public class Product {
     }
 
     private String colour;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Long getId() {
         return id;
@@ -100,11 +105,6 @@ public class Product {
         this.colour = colour;
     }
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     public Product() {
     }
 
@@ -117,4 +117,8 @@ public class Product {
         this.colour = colour;
         this.sizes = sizes;
     }
+
+    @ManyToMany(mappedBy = "products")
+ //   @JsonManagedReference
+    private List<Cart> carts = new ArrayList<>();
 }
