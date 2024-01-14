@@ -37,11 +37,11 @@ public class Order {
         this.user = user;
     }
 
-    @JsonProperty("user_id")
+   /* @JsonProperty("user_id")
     public Long getUserId() {
         return (user != null) ? user.getId() : null;
-    }
-    @JsonIgnore
+    }*/
+    //@JsonIgnore
     public User getUser() {
         return user;
     }

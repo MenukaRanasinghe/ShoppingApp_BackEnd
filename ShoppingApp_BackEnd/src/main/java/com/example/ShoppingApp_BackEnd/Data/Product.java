@@ -34,7 +34,7 @@ public class Product {
         return (category != null) ? category.getId() : null;
     }
 
-    @JsonIgnore
+   // @JsonIgnore
     public Category getCategory() {
         return category;
     }
@@ -45,6 +45,8 @@ public class Product {
 
     private String colour;
 
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("category")
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
