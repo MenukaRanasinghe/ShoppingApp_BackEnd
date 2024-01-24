@@ -19,6 +19,9 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Long getProductCount() {
+        return productRepository.count();
+    }
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));

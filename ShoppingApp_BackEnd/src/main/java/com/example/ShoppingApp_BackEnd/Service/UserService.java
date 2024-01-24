@@ -37,6 +37,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Long getUserCount() {
+        return userRepository.count();
+    }
     public Optional<User> getUserById(Long userId) {
         return userRepository.findById(userId);
     }

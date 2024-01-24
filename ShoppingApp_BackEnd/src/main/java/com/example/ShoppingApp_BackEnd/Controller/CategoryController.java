@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -24,6 +25,10 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+    @GetMapping("/count")
+    public Long getCategoryCount() {
+        return categoryService.getCategoryCount();
     }
 
     @GetMapping("/{id}")

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -22,6 +23,10 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/count")
+    public Long getUserCount() {
+        return userService.getUserCount();
+    }
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId).orElse(null); // Handle not found scenario

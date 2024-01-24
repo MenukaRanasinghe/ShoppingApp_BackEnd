@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -30,6 +31,10 @@ public class OrderController {
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+    @GetMapping("/count")
+    public Long getOrderCount() {
+        return orderService.getOrderCount();
     }
 
     @PostMapping
