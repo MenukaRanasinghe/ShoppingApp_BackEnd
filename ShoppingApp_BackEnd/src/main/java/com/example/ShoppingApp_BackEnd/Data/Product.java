@@ -34,10 +34,12 @@ public class Product {
         return (category != null) ? category.getId() : null;
     }
 
-   // @JsonIgnore
+  //  @JsonIgnore
     public Category getCategory() {
         return category;
     }
+
+
 
     public void setCategory(Category category) {
         this.category = category;
@@ -45,9 +47,19 @@ public class Product {
 
     private String colour;
 
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonIgnoreProperties("category")
-    @ManyToOne
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    @Lob
+    private String photo;
+  //  @JsonIdentityReference(alwaysAsId = true)
+  //  @JsonIgnoreProperties("category")
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -110,14 +122,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, double price, int quantity, String colour, Set<String> sizes) {
+    public Product(Long id, String name, String description, double price, int quantity, Set<String> sizes, String colour, String photo) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.colour = colour;
         this.sizes = sizes;
+        this.colour = colour;
+        this.photo = photo;
     }
 
     @ManyToMany(mappedBy = "products")

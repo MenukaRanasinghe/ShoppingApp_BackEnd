@@ -50,7 +50,7 @@ public class Category {
         this.id = id;
         this.name = name;
     }
-    @JsonBackReference
+  //  @JsonBackReference
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 }
