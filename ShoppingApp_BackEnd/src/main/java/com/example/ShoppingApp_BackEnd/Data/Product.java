@@ -47,19 +47,16 @@ public class Product {
 
     private String colour;
 
-    public String getPhoto() {
-        return photo;
-    }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     @Lob
-    private String photo;
+    @Column(name = "photo", columnDefinition = "BLOB")
+    private byte[] photo;
+
+
   //  @JsonIdentityReference(alwaysAsId = true)
   //  @JsonIgnoreProperties("category")
-    @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -119,10 +116,18 @@ public class Product {
         this.colour = colour;
     }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
     public Product() {
     }
 
-    public Product(Long id, String name, String description, double price, int quantity, Set<String> sizes, String colour, String photo) {
+    public Product(Long id, String name, String description, double price, int quantity, Set<String> sizes, String colour, byte[] photo, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -131,6 +136,7 @@ public class Product {
         this.sizes = sizes;
         this.colour = colour;
         this.photo = photo;
+        this.category = category;
     }
 
     @ManyToMany(mappedBy = "products")
